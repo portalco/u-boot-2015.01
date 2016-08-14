@@ -168,16 +168,16 @@
 #define FRQCR_D		0x1035	/* CPU= 300-400 MHz */
 
 /* Enable all peripherals */
-#define STBCR3_D	0x00000000
-#define STBCR4_D	0x00000000
-#define STBCR5_D	0x00000000
-#define STBCR6_D	0x00000000
-#define STBCR7_D	0x00000024
-#define STBCR8_D	0x00000005
-#define STBCR9_D	0x00000000
-#define STBCR10_D	0x00000000
-#define STBCR11_D	0x000000c0
-#define STBCR12_D	0x000000f0
+#define STBCR3_D	0x00000011
+#define STBCR4_D	0x00000007
+#define STBCR5_D	0x0000003C
+#define STBCR6_D	0x0000003E
+#define STBCR7_D	0x0000002C
+#define STBCR8_D	0x000000E5
+#define STBCR9_D	0x00000005
+#define STBCR10_D	0x0000001B
+#define STBCR11_D	0x000000C3
+#define STBCR12_D	0x000000F0
 
 
 /* NOTE: Setup of pins, chip selects and SDRAM moved to board_early_init_f() */
