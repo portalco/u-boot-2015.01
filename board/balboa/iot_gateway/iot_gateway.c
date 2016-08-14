@@ -270,22 +270,6 @@ int board_early_init_f(void)
 
 int board_late_init(void)
 {
-	u8 mac[6];
-	u8 tmp[1];
-
-	/* Read Mac Address and set*/
-	i2c_init(CONFIG_SYS_I2C_SPEED, 0);
-	i2c_set_bus_num(CONFIG_SYS_I2C_MODULE);
-
-	/* Read MAC address */
-	i2c_read(CONFIG_SYS_I2C_EEPROM_ADDR,
-		 CONFIG_SH_ETHER_EEPROM_ADDR,
-		 CONFIG_SYS_I2C_EEPROM_ADDR_LEN,
-		 mac, 6);
-
-	if (is_valid_ether_addr(mac))
-		eth_setenv_enetaddr("ethaddr", mac);
-
 	printf(	"\t\t      SPI Flash Memory Map\n"
 		"\t\t------------------------------------\n"
 		"\t\t         Start      Size     SPI\n");

@@ -27,8 +27,6 @@
 #define CONFIG_CMD_EXT4
 #define CONFIG_CMD_FAT
 #define CONFIG_CMD_SF
-#define CONFIG_CMD_I2C
-#define CONFIG_CMD_EEPROM
 #define CONFIG_CMD_DATE
 #define CONFIG_DOS_PARTITION
 #define CONFIG_MAC_PARTITION
@@ -152,22 +150,6 @@
 #define CONFIG_RZA1_BASE_QSPI0		0x3FEFA000
 #define CONFIG_SPI_FLASH_BAR		/* For SPI Flash bigger than 16MB */
 #define CONFIG_SF_SHOW_PROGRESS		/* Display status while erasing and writing */
-
-/* I2C configuration */
-#define CONFIG_SH_RIIC
-#define CONFIG_HARD_I2C
-#define CONFIG_I2C_MULTI_BUS
-#define CONFIG_SYS_MAX_I2C_BUS		4
-#define CONFIG_SYS_I2C_SPEED		100000 /* 100 kHz */
-#define CONFIG_SYS_I2C_EEPROM_ADDR	0x50
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	1
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	4	/* 16-Byte Write Mode */
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	10	/* 10ms of delay */
-#define CONFIG_SYS_I2C_MODULE		3
-#define CONFIG_SH_I2C_BASE0		0xFCFEE000
-#define CONFIG_SH_I2C_BASE1		0xFCFEE400
-#define CONFIG_SH_I2C_BASE2		0xFCFEE800
-#define CONFIG_SH_I2C_BASE3		0xFCFEEc00
 
 /* RTC configuration */
 #define CONFIG_RTC_RZA1
