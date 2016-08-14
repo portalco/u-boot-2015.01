@@ -3,6 +3,8 @@ if RZA1
 choice
 	prompt "Renesas RZ/A1H ARM SoCs board select"
 
+config TARGET_BALBOA_IOT_GATEWAY
+	bool "Balboa IoT Gateway board"
 config TARGET_GENMAI
        bool "GENMAI board"
 config TARGET_RSKRZA1
@@ -13,6 +15,7 @@ endchoice
 config SYS_SOC
 	default "rza1"
 
+source "board/balboa/iot_gateway/Kconfig"
 source "board/renesas/genmai/Kconfig"
 source "board/renesas/rskrza1/Kconfig"
 

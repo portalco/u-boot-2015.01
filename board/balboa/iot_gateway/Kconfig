@@ -1,0 +1,13 @@
+if TARGET_BALBOA_IOT_GATEWAY
+
+config SYS_BOARD
+	default "iot_gateway"
+
+config SYS_VENDOR
+	default "balboa"
+
+config SYS_CONFIG_NAME
+	default "iot_gateway"
+
+endif
+

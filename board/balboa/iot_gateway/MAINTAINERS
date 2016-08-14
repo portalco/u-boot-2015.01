@@ -1,0 +1,6 @@
+BALBOA IOT GATEWAY BOARD
+#M:	-
+S:	Maintained
+F:	board/balboa/iot_gateway/
+F:	include/configs/iot_gateway.h
+F:	configs/iot_gateway_defconfig
