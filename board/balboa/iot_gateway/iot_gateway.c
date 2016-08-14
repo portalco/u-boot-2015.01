@@ -286,7 +286,7 @@ int board_early_init_f(void)
 	/* Configure SDRAM (CS2, CS3)                 */
 	/**********************************************/
 	#define CS2BCR_D	0x00004C00
-	#define CS2WCR_D	0x00000480
+	#define CS2WCR_D	0x00000480 /* CAS Latency = 2 */
 	#define CS3BCR_D	0x00004C00
 	#define CS3WCR_D	0x00002492
 	#define SDCR_D		0x00120812
@@ -309,6 +309,8 @@ int board_early_init_f(void)
 	/* The final step is to set the SDRAM Mode Register by written to a
 	   specific address (the data value is ignored) */
 	/* Check the hardware manual if your settings differ */
+	/* See p.238/2493 of r01uh0437ej0200_rz_a1l.pdf, table
+	   "Access Address in SDRAM Mode Register Write" */
 	#define SDRAM_MODE_CS2 0x3FFFD040
 	#define SDRAM_MODE_CS3 0x3FFFE040
 	*(u32 *)SDRAM_MODE_CS2 = 0;
@@ -331,10 +333,10 @@ int board_late_init(void)
 	/* Boot uImage in external SDRAM */
 	/* Rootfs is a squashfs image in memory mapped QSPI */
 	/* => run s_boot */
-	setenv("s1", "sf probe 0; sf read 09800000 C0000 8000"); // Read out DT blob
-	setenv("s2", "sf probe 0:1; sf read 09000000 100000 500000"); //Copy Kernel to SDRAM
-	setenv("s3", "bootm start 0x09000000 - 0x09800000 ; bootm loados ;"\
-			"fdt memory 0x08000000 0x08000000"); // Change memory address in DTB
+	setenv("s1", "sf probe 0; sf read 0B800000 C0000 8000"); // Read out DT blob
+	setenv("s2", "sf read 0B000000 100000 500000"); //Copy Kernel to SDRAM
+	setenv("s3", "bootm start 0x0B000000 - 0x0B800000 ; bootm loados ;"\
+			"fdt memory 0x0A000000 0x04000000"); // Change memory address in DTB
 	setenv("s4", "qspi single"); // Change XIP interface to single QSPI
 	setenv("sargs", "console=ttySC2,115200 console=tty0 ignore_loglevel root=/dev/mtdblock0"); // bootargs
 	setenv("s_boot", "run s1 s2 s3 s4; set bootargs ${sargs}; fdt chosen; bootm go"); // run the commands
@@ -343,9 +345,9 @@ int board_late_init(void)
 	/* Rootfs is a AXFS image in memory mapped QSPI */
 	/* => run xsa_boot */
 	/* Read out DT blob */
-	setenv("xsa1", "sf probe 0; sf read 09800000 C0000 8000");
+	setenv("xsa1", "sf probe 0; sf read 0B800000 C0000 8000");
 	/* Change memory address in DTB */
-	setenv("xsa2", "fdt addr 09800000 ; fdt memory 0x08000000 0x08000000"); /* 128MB SDRAM RAM */
+	setenv("xsa2", "fdt addr 0B800000 ; fdt memory 0x0A000000 0x04000000"); /* 128MB SDRAM RAM */
 	/* Change XIP interface to dual QSPI */
 	setenv("xsa3", "qspi single");
 	setenv("xsaargs", "console=ttySC2,115200 console=tty0 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs

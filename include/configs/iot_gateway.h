@@ -92,11 +92,11 @@
 #define USE_INTERNAL_RAM
 #ifdef USE_INTERNAL_RAM
  #define CONFIG_SYS_SDRAM_BASE		0x20000000
- #define CONFIG_SYS_SDRAM_SIZE		(10 * 1024 * 1024)
+ #define CONFIG_SYS_SDRAM_SIZE		(3 * 1024 * 1024)
  #define CONFIG_SYS_INIT_SP_ADDR         (CONFIG_SYS_SDRAM_BASE + CONFIG_SYS_SDRAM_SIZE - 1*1024*1024)
 #else
- #define CONFIG_SYS_SDRAM_BASE		0x08000000
- #define CONFIG_SYS_SDRAM_SIZE		(128 * 1024 * 1024)
+ #define CONFIG_SYS_SDRAM_BASE		0x0A000000
+ #define CONFIG_SYS_SDRAM_SIZE		(64 * 1024 * 1024)
  /* NOTE: The pin setup and SDRAM configuration is done in C,
           so an initial stack has to be set up first, meaning you
           can't have your init stack in SDRAM before the SDRAM is setup.
