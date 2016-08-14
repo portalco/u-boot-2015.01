@@ -50,7 +50,7 @@ lowlevel_init:
 	/* Enable all internal RAM */
 	write8 SYSCR1, 0xFF
 	write8 SYSCR2, 0xFF
-	write8 SYSCR3, 0xFF
+	write8 SYSCR3, 0x0F
 
 	nop
 	/* back to arch calling code */
