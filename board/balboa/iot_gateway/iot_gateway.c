@@ -68,7 +68,7 @@ void pfc_set_gpio(u8 n, u8 b, u8 d)
 }
 
 /* Arguments:
-    n = port number (P1-P11)
+    n = port number (P1-P9)
     b = bit number (0-15)
     alt = Alternative mode ('ALT1'-'ALT7')
     inbuf =  Input buffer (0=disabled, 1=enabled)
@@ -219,6 +219,21 @@ int board_early_init_f(void)
 
 	/* Pushbutton */
 	pfc_set_gpio(8, 11, GPIO_IN); /* P8_11 = PUSH */
+
+	/* RS485 */
+	pfc_set_pin_function(7, 5, ALT7, 0, 0);	/* P7_5 = RS485_RX */
+	pfc_set_pin_function(7, 6, ALT7, 0, 0);	/* P7_6 = RS485_TX */
+	pfc_set_pin_function(7, 7, ALT7, 0, 0);	/* P7_7 = RS485_RTS */
+
+	/* BTWIFI control pins */
+	pfc_set_gpio(7, 3, GPIO_OUT); /* P7_3 = BTWIFI_RSTN */
+	pfc_set_gpio(7, 2, GPIO_IN); /* P7_2 = BTWIFI_HOST_WAKEUP */
+
+	/* USB control pins */
+	pfc_set_gpio(1, 9, GPIO_OUT); /* P1_9 = USB_DEVICE_LS_ON */
+	pfc_set_gpio(1, 10, GPIO_OUT); /* P1_10 = USB_DEVICE_FS_ON */
+	pfc_set_gpio(1, 11, GPIO_OUT); /* P1_11 = ~USB_HOST_ON */
+	pfc_set_gpio(1, 12, GPIO_OUT); /* P1_12 = USB_HOST_ON */
 
 
 	/**********************************************/
