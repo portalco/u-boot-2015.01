@@ -138,7 +138,7 @@
 #define CONFIG_RTC_RZA1_BASE_ADDR	0xFCFF1000
 
 /* Board Clock */
-#define CONFIG_SYS_CLK_FREQ	66666666 /* P1 clock. */
+#define CONFIG_SYS_CLK_FREQ	64000000 /* P1 clock. */
 #define CONFIG_SYS_HZ		1000
 
 /* Network interface */
