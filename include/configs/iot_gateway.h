@@ -41,7 +41,7 @@
 #define CONFIG_CMDLINE_TAG
 
 /* Uncomment for systems with No Parallel NOR Flash */
-/* #define CONFIG_SYS_NO_FLASH	*/
+#define CONFIG_SYS_NO_FLASH
 
 #ifndef _CONFIG_CMD_DEFAULT_H
 # include <config_cmd_default.h>
@@ -113,29 +113,11 @@
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 4*1024*1024)
 #define	CONFIG_LOADADDR			CONFIG_SYS_SDRAM_BASE
 
-/* NOR Flash */
-#ifndef CONFIG_SYS_NO_FLASH
-#define CONFIG_SYS_FLASH_BASE		0x00000000
-#define CONFIG_SYS_MAX_FLASH_BANKS	1
-#define CONFIG_SYS_MAX_FLASH_SECT	512
-#define CONFIG_FLASH_CFI_DRIVER
-#define CONFIG_SYS_FLASH_CFI
-#define CONFIG_SYS_FLASH_CFI_WIDTH	FLASH_CFI_16BIT
-#define CONFIG_SYS_FLASH_BANKS_LIST	{ CONFIG_SYS_FLASH_BASE }
-#define CONFIG_SYS_MONITOR_BASE		CONFIG_SYS_FLASH_BASE
-#endif
-
-#if !defined(CONFIG_BOOT_MODE0)
 #ifndef SPI_FLASH_LOADER
   #define CONFIG_ENV_IS_IN_SPI_FLASH
 #endif
 #define CONFIG_ENV_OFFSET	0x80000
 #define CONFIG_ENV_SECT_SIZE	0x40000		/* smallest erase sector size */
-#else
-#define CONFIG_ENV_IS_IN_FLASH
-#define CONFIG_ENV_OFFSET	(512 * 1024)
-#define CONFIG_ENV_SECT_SIZE	(256 * 1024)
-#endif
 
 #define CONFIG_ENV_SIZE		CONFIG_ENV_SECT_SIZE
 #define CONFIG_ENV_ADDR		(CONFIG_SYS_FLASH_BASE + CONFIG_ENV_OFFSET)
@@ -182,7 +164,7 @@
 #define WTCSR_D		0xA518
 #define WTCNT_D		0x5A00
 
-/* Set clocks based on 13.3333MHz xtal */
+/* Set clocks based on 48MHz USB_X1/X2 xtal */
 #define FRQCR_D		0x1035	/* CPU= 300-400 MHz */
 
 /* Enable all peripherals */
