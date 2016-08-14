@@ -57,7 +57,7 @@ const u32 alt_settings[9][3] = {
 };
 
 /* Arguments:
-   n = port(1-11)
+   n = port(1-9)
    b = bit(0-15)
    d = direction('GPIO_IN','GPIO_OUT')
 */
@@ -154,89 +154,71 @@ int board_early_init_f(void)
 
 	int i;
 
-	/* When booting from Parallel NOR, some pins need to be bi-directional */
-	/* CS0, RD, A1-A15 */
-	#if defined(CONFIG_BOOT_MODE0)
-	  #define NOR_BIDIR 1
-	  /* TODO: Replace '0' with 'NOR_BIDIR for those pins below */
-	#else
-	  #define NOR_BIDIR 0
-	#endif
-
 	rtc_reset();	/* to start rtc */
 
 	/* =========== Pin Setup =========== */
-	/* Specific for the RZ/H on the GENMAI board. Adjust for your board as needed. */
+	/* Specific for the RZ A1L on the Balboa IoT Gateway board. Adjust for your board as needed. */
 
 	/* Serial Console */
-	pfc_set_pin_function(3, 0, ALT6, 0, 0);	/* P3_0 = TxD2 */
-	pfc_set_pin_function(3, 2, ALT4, 0, 0);	/* P3_2 = RxD2 */
+	pfc_set_pin_function(7, 1, ALT4, 0, 0);	/* P7_1 = SC_TxD2 */
+	pfc_set_pin_function(1, 7, ALT3, 0, 0);	/* P1_7 = SC_RxD2 */
 
-	/* QSPI_0 ch0 (booted in 1-bit, need to change to 4-bit) */
-	pfc_set_pin_function(9, 2, ALT2, 0, 0);	/* P9_2 = SPBCLK_0 */
-	pfc_set_pin_function(9, 3, ALT2, 0, 0);	/* P9_3 = SPBSSL_0 */
-	pfc_set_pin_function(9, 4, ALT2, 0, 1);	/* P9_4 = SPBIO00_0 (bi dir) */
-	pfc_set_pin_function(9, 5, ALT2, 0, 1);	/* P9_5 = SPBIO10_0 (bi dir) */
-	pfc_set_pin_function(9, 6, ALT2, 0, 1);	/* P9_6 = SPBIO20_0 (bi dir) */
-	pfc_set_pin_function(9, 7, ALT2, 0, 1);	/* P9_7 = SPBIO30_0 (bi dir) */
+	/* QSPI ch0 (booted in 1-bit, need to change to 4-bit) */
+	pfc_set_pin_function(4, 4, ALT2, 0, 0);	/* P4_4 = QSPI_SCK */
+	pfc_set_pin_function(4, 5, ALT2, 0, 0);	/* P4_5 = QSPI_CS */
+	pfc_set_pin_function(4, 6, ALT2, 0, 1);	/* P4_6 = QSPI_IO0_SI (bi dir) */
+	pfc_set_pin_function(4, 7, ALT2, 0, 1);	/* P4_7 = QSPI_IO1_SO (bi dir) */
+	pfc_set_pin_function(4, 2, ALT2, 0, 1);	/* P4_2 = QSPI_IO2 (bi dir) */
+	pfc_set_pin_function(4, 3, ALT2, 0, 1);	/* P4_3 = QSPI_IO3 (bi dir) */
 
-	/* QSPI_0 ch1 (4-bit interface for dual QSPI mode) */
-	pfc_set_pin_function(2, 12, ALT4, 0, 1); /* P2_12 = SPBIO01_0 (bi dir) */
-	pfc_set_pin_function(2, 13, ALT4, 0, 1); /* P2_13 = SPBIO11_0 (bi dir) */
-	pfc_set_pin_function(2, 14, ALT4, 0, 1); /* P2_14 = SPBIO21_0 (bi dir) */
-	pfc_set_pin_function(2, 15, ALT4, 0, 1); /* P2_15 = SPBIO31_0 (bi dir) */
-
-	/* RIIC Ch 3 */
-	pfc_set_pin_function(1, 6, ALT1, 0, 1);	/* P1_6 = RIIC3SCL (bi dir) */
-	pfc_set_pin_function(1, 7, ALT1, 0, 1);	/* P1_7 = RIIC3SDA (bi dir) */
+	/* SPI for 128MB flash */
+	pfc_set_pin_function(6, 12, ALT3, 0, 0); /* P6_12 = SPI_SCK1 */
+	pfc_set_pin_function(6, 13, ALT3, 0, 0); /* P6_13 = SPI_CS1 */
+	pfc_set_pin_function(6, 14, ALT3, 0, 0); /* P6_14 = SPI_MOSI1 */
+	pfc_set_pin_function(6, 15, ALT3, 0, 0); /* P6_15 = SPI_MISO1 */
 
 	/* Ethernet */
-	pfc_set_pin_function(1, 14, ALT4, 0, 0); /* P1_14 = ET_COL */
-	pfc_set_pin_function(5, 9, ALT2, 0, 0);	/* P5_9 = ET_MDC */
-	pfc_set_pin_function(3, 3, ALT2, 0, 1);	/* P3_3 = ET_MDIO (bi dir) */
-	pfc_set_pin_function(3, 4, ALT2, 0, 0);	/* P3_4 = ET_RXCLK */
-	pfc_set_pin_function(3, 5, ALT2, 0, 0);	/* P3_5 = ET_RXER */
-	pfc_set_pin_function(3, 6, ALT2, 0, 0);	/* P3_6 = ET_RXDV */
-	pfc_set_pin_function(2, 0, ALT2, 0, 0);	/* P2_0 = ET_TXCLK */
-	pfc_set_pin_function(2, 1, ALT2, 0, 0);	/* P2_1 = ET_TXER */
-	pfc_set_pin_function(2, 2, ALT2, 0, 0);	/* P2_2 = ET_TXEN */
-	pfc_set_pin_function(2, 3, ALT2, 0, 0);	/* P2_3 = ET_CRS */
-	pfc_set_pin_function(2, 4, ALT2, 0, 0);	/* P2_4 = ET_TXD0 */
-	pfc_set_pin_function(2, 5, ALT2, 0, 0);	/* P2_5 = ET_TXD1 */
-	pfc_set_pin_function(2, 6, ALT2, 0, 0);	/* P2_6 = ET_TXD2 */
-	pfc_set_pin_function(2, 7, ALT2, 0, 0);	/* P2_7 = ET_TXD3 */
-	pfc_set_pin_function(2, 8, ALT2, 0, 0);	/* P2_8 = ET_RXD0 */
-	pfc_set_pin_function(2, 9, ALT2, 0, 0);	/* P2_9 = ET_RXD1 */
-	pfc_set_pin_function(2, 10, ALT2, 0, 0); /* P2_10 = ET_RXD2 */
-	pfc_set_pin_function(2, 11, ALT2, 0, 0); /* P2_11 = ET_RXD3 */
-	//pfc_set_pin_function(4, 14, ALT8, 0, 0); /* P4_14 = IRQ6 (ET_IRQ) */ /* NOTE: u-boot doesn't enable interrupts */
+	/* Note: TXER and IRQ signals are not used */
+	pfc_set_pin_function(8, 14, ALT2, 0, 0);	/* P8_14 = ET_COL */
+	pfc_set_pin_function(9, 0, ALT2, 0, 0);		/* P9_0 = ET_MDC */
+	pfc_set_pin_function(9, 1, ALT2, 0, 1);		/* P9_1 = ET_MDIO (bi dir) */
+	pfc_set_pin_function(9, 2, ALT2, 0, 0);		/* P9_2 = ET_RXCLK */
+	pfc_set_pin_function(9, 3, ALT2, 0, 0);		/* P9_3 = ET_RXER */
+	pfc_set_pin_function(9, 4, ALT2, 0, 0);		/* P9_4 = ET_RXDV */
+	pfc_set_pin_function(8, 4, ALT2, 0, 0);		/* P8_4 = ET_TXCLK */
+	pfc_set_pin_function(8, 6, ALT2, 0, 0);		/* P8_6 = ET_TXEN */
+	pfc_set_pin_function(8, 15, ALT2, 0, 0);	/* P8_15 = ET_CRS */
+	pfc_set_pin_function(8, 0, ALT2, 0, 0);		/* P8_0 = ET_TXD0 */
+	pfc_set_pin_function(8, 1, ALT2, 0, 0);		/* P8_1 = ET_TXD1 */
+	pfc_set_pin_function(8, 2, ALT2, 0, 0);		/* P8_2 = ET_TXD2 */
+	pfc_set_pin_function(8, 3, ALT2, 0, 0);		/* P8_3 = ET_TXD3 */
+	pfc_set_pin_function(8, 7, ALT2, 0, 0);		/* P8_7 = ET_RXD0 */
+	pfc_set_pin_function(8, 8, ALT2, 0, 0);		/* P8_8 = ET_RXD1 */
+	pfc_set_pin_function(8, 9, ALT2, 0, 0);		/* P8_9 = ET_RXD2 */
+	pfc_set_pin_function(8, 10, ALT2, 0, 0);	/* P8_10 = ET_RXD3 */
 
 	/* SDRAM */
-	pfc_set_pin_function(5, 8, ALT6, 0, 0);	/* P5_8 = CS2 */
-	pfc_set_pin_function(7, 1, ALT1, 0, 0);	/* P7_1 = CS3 */	
+	pfc_set_pin_function(7, 8, ALT1, 0, 0);	/* P7_8 = CS2 */
+	pfc_set_pin_function(2, 0, ALT1, 0, 0);	/* P2_0 = CS3 */	
 	for(i=0;i<=15;i++)
-		pfc_set_pin_function(6, i, ALT1, 0, 1);	/* P6_0~15 = D0-D15 (bi dir) */
-	pfc_set_pin_function(7, 2, ALT1, 0, 0);	/* P7_2 = RAS */
-	pfc_set_pin_function(7, 3, ALT1, 0, 0);	/* P7_3 = CAS */
-	pfc_set_pin_function(7, 4, ALT1, 0, 0);	/* P7_4 = CKE */
-	pfc_set_pin_function(7, 5, ALT1, 0, 0);	/* P7_5 = RD/WR */
-	pfc_set_pin_function(7, 6, ALT1, 0, 0);	/* P7_6 = WE0/DQMLL */
-	pfc_set_pin_function(7, 7, ALT1, 0, 0);	/* P7_7 = WE1/DQMLU */
-	for(i=9;i<=15;i++)
-		pfc_set_pin_function(7, i, ALT1, 0, 0);	/* P7_9~15: A1-A7 */
-	for(i=0;i<=15;i++)
-		pfc_set_pin_function(8, i, ALT1, 0, 0);	/* P8_0~15 = A8-A23 */
-
-	/* Parallel NOR Flash */
-	/* Assumes previous SDRAM setup A1-A23,D0-D15,WE0 */
-	pfc_set_pin_function(9, 0, ALT1, 0, 0);	/* P9_0 = A24 */
-	pfc_set_pin_function(9, 1, ALT1, 0, 0);	/* P9_1 = A25 */
-	pfc_set_pin_function(7, 8, ALT1, 0, 0);	/* P7_8 = RD */
-	pfc_set_pin_function(7, 0, ALT1, 0, 0);	/* P7_0 = CS0 */
+		pfc_set_pin_function(5, i, ALT1, 0, 1);	/* P5_0~15 = D0-D15 (bi dir) */
+	pfc_set_pin_function(2, 1, ALT1, 0, 0);	/* P2_1 = RAS */
+	pfc_set_pin_function(2, 2, ALT1, 0, 0);	/* P2_2 = CAS */
+	pfc_set_pin_function(2, 3, ALT1, 0, 0);	/* P2_3 = CKE */
+	pfc_set_pin_function(2, 6, ALT1, 0, 0);	/* P2_6 = WE */
+	pfc_set_pin_function(2, 4, ALT1, 0, 0);	/* P2_4 = DQMLL */
+	pfc_set_pin_function(2, 5, ALT1, 0, 0);	/* P2_5 = DQMLU */
+	for(i=0;i<=12;i++)
+		pfc_set_pin_function(3, i, ALT1, 0, 0);	/* P3_0~12: SDRAM_A0-A12 */
+	pfc_set_pin_function(3, 13, ALT1, 0, 0);	/* P3_13 = SDRAM_BA0 */
+	pfc_set_pin_function(3, 14, ALT1, 0, 0);	/* P3_14 = SDRAM_BA1 */
 
 	/* LEDs */
-	pfc_set_gpio(4, 10, GPIO_OUT); /* P4_10 = GPIO_OUT */
-	pfc_set_gpio(4, 11, GPIO_OUT); /* P4_11 = GPIO_OUT */
+	pfc_set_gpio(6, 0, GPIO_OUT); /* P6_0 = LED2 */
+	pfc_set_gpio(6, 1, GPIO_OUT); /* P6_1 = LED3 */
+
+	/* Pushbutton */
+	pfc_set_gpio(8, 11, GPIO_IN); /* P8_11 = PUSH */
 
 
 	/**********************************************/
