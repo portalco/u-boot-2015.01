@@ -64,7 +64,14 @@ const u32 alt_settings[9][3] = {
 void pfc_set_gpio(u8 n, u8 b, u8 d)
 {
 	*(u32 *)PMCSRn(n) = 1UL<<(b+16);	// Pin as GPIO
-	*(u32 *)PSRn(n) = 1UL<<(b+16) | (u32)d<< b;	// Set direction
+	//*(u32 *)PSRn(n) = 1UL<<(b+16) | (u32)d<< b;	// Set direction
+	if (d == GPIO_OUT) {
+		*(u16 *)PMn(n) &= ~(((u16)1) << b);
+		*(u16 *)PIBCn(n) &= ~(((u16)1) << b);
+	} else {
+		*(u16 *)PMn(n) |= 1 << b;
+		*(u16 *)PIBCn(n) |= 1 << b;
+	}
 }
 
 /* Arguments:
@@ -122,6 +129,28 @@ void pfc_set_pin_function(u16 n, u16 b, u16 alt, u16 inbuf, u16 bi)
 
 	/* Set PIPCn so pin used for function '1'(not GPIO '0') */
 	*(u16 *)PIPCn(n) |= 1UL <<b;
+}
+
+/* Arguments:
+   n = port(1-9)
+   b = bit(0-15)
+   v = value (0-1)
+*/
+void pfc_gpio_set(u8 n, u8 b, u8 v)
+{
+        if (v)
+                *(u32 *)Pn(n) |= 1UL<<b;
+        else
+                *(u32 *)Pn(n) &= ~(1UL<<b);
+}
+
+/* Arguments:
+   n = port(1-9)
+   b = bit(0-15)
+*/
+int pfc_gpio_get(u8 n, u8 b)
+{
+        return ((*(u32 *)PPRn(n)) & (1UL<<b)) ? 1 : 0;
 }
 
 
@@ -227,13 +256,18 @@ int board_early_init_f(void)
 
 	/* BTWIFI control pins */
 	pfc_set_gpio(7, 3, GPIO_OUT); /* P7_3 = BTWIFI_RSTN */
+	pfc_gpio_set(7, 3, 1); /* BTWIFI_RSTN inactive */
 	pfc_set_gpio(7, 2, GPIO_IN); /* P7_2 = BTWIFI_HOST_WAKEUP */
 
 	/* USB control pins */
 	pfc_set_gpio(1, 9, GPIO_OUT); /* P1_9 = USB_DEVICE_LS_ON */
+	pfc_gpio_set(1, 9, 1); /* LS Off */
 	pfc_set_gpio(1, 10, GPIO_OUT); /* P1_10 = USB_DEVICE_FS_ON */
+	pfc_gpio_set(1, 10, 1); /* FS Off */
 	pfc_set_gpio(1, 11, GPIO_OUT); /* P1_11 = ~USB_HOST_ON */
 	pfc_set_gpio(1, 12, GPIO_OUT); /* P1_12 = USB_HOST_ON */
+	pfc_gpio_set(1, 11, 1); /* Host Off */
+	pfc_gpio_set(1, 12, 0); /* Host Off */
 
 
 	/**********************************************/
