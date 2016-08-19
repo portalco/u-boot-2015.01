@@ -74,7 +74,6 @@
 /* Memory */
 /* u-boot relocated to top 256KB of ram */
 #define CONFIG_NR_DRAM_BANKS		1
-#if !defined(CONFIG_BOOT_MODE0)
 
 /* SPI_FLASH_LOADER: Build a version that can be downloaded to RAM directly and run
    in order to be used to program QSPI flash for the first time. */
@@ -86,9 +85,7 @@
 #else
  #define CONFIG_SYS_TEXT_BASE		0x18000000
 #endif
-#else
-#define CONFIG_SYS_TEXT_BASE		0x00000000
-#endif
+
 #define USE_INTERNAL_RAM
 #ifdef USE_INTERNAL_RAM
  #define CONFIG_SYS_SDRAM_BASE		0x20000000
@@ -106,11 +103,11 @@
  #define CONFIG_SYS_INIT_SP_ADDR         0x20300000 /* Internal RAM @ 3MB */
 #endif
 
-#define CONFIG_SYS_MEMTEST_START	CONFIG_SYS_SDRAM_BASE
-#define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_SDRAM_BASE + 0x2000000)
+#define CONFIG_SYS_MEMTEST_START	0x0A000000
+#define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 0x4000000)
 #define CONFIG_SYS_MALLOC_LEN		(512 * 1024)
 #define CONFIG_SYS_MONITOR_LEN		(128 * 1024)
-#define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 4*1024*1024)
+#define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + 0*1024*1024)
 #define	CONFIG_LOADADDR			CONFIG_SYS_SDRAM_BASE
 
 #ifndef SPI_FLASH_LOADER
