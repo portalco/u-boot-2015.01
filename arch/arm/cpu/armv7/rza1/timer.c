@@ -76,14 +76,14 @@ static unsigned long get_usec (void)
 
 	cmcnt = data;
 
-	/* Timer source clock (P0) is 33.33 Mhz */
-	return (unsigned long)(ost0_timer / 33);
+	/* Timer source clock (P0) is 32 Mhz */
+	return (unsigned long)(ost0_timer >> 5);
 }
 
 unsigned long long get_ticks(void)
 {
 	(void)get_usec(); /* To update ost0_timer */
-	return ost0_timer / 32000;
+	return ost0_timer >> 15;
 }
 
 
