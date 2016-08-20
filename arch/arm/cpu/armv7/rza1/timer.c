@@ -33,7 +33,8 @@
 #define OST_MAX_COUNTER (0xFFFFFFFF)
 #define OST_TIMER_RESET (0xFFFFFFFF)
 
-static vu_long ost0_timer;
+/* static vu_long ost0_timer; */
+static volatile unsigned long long ost0_timer;
 
 static void ost_timer_start(unsigned int timer)
 {
@@ -60,11 +61,6 @@ int timer_init(void)
 	return 0;
 }
 
-unsigned long long get_ticks(void)
-{
-	return ost0_timer;
-}
-
 static vu_long cmcnt = 0;
 static unsigned long get_usec (void)
 {
@@ -83,6 +79,13 @@ static unsigned long get_usec (void)
 	/* Timer source clock (P0) is 33.33 Mhz */
 	return (unsigned long)(ost0_timer / 33);
 }
+
+unsigned long long get_ticks(void)
+{
+	(void)get_usec(); /* To update ost0_timer */
+	return ost0_timer / 32000;
+}
+
 
 /* return msec */
 ulong get_timer(ulong base)
