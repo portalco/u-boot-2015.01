@@ -370,6 +370,21 @@ int dram_init(void)
 
 void reset_cpu(ulong addr)
 {
+	/* Based on rza1_restart () from linux board file */
+#define OFFSET_WTCSR 0
+#define OFFSET_WTCNT 2
+#define OFFSET_WRCSR 4
+	void *base = (void *)0xFCFE0000;
+
+	/* Dummy read (must read WRCSR:WOVF at least once before clearing) */
+	*(volatile uint8_t *)(base + OFFSET_WRCSR) = *(uint8_t *)(base + OFFSET_WRCSR);
+
+	*(volatile uint16_t *)(base + OFFSET_WRCSR) = 0xA500;  /* Clear WOVF */
+	*(volatile uint16_t *)(base + OFFSET_WRCSR) = 0x5A5F;  /* Reset Enable */
+	*(volatile uint16_t *)(base + OFFSET_WTCNT) = 0x5A00;  /* Counter to 00 */
+	*(volatile uint16_t *)(base + OFFSET_WTCSR) = 0xA578;  /* Start timer */
+
+	while(1); /* Wait for WDT overflow */
 }
 
 void led_set_state(unsigned short value)
