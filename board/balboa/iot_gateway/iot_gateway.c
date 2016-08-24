@@ -336,6 +336,12 @@ int board_late_init(void)
 	printf(	"\t\trootfs:  0x%08X 0x%06X\n",0x800000, 0x2000000-0x800000);
 	printf( "\n\n");
 
+	/* Update commands */
+	setenv("update_server", "192.168.0.11");
+	setenv("update_uboot", "tftpboot 0x20000000 ${update_server}:u-boot.bin ; "
+	                       "sf probe; sf erase 0x000000 0x80000 ; "
+                               "sf write 0x20000000 0x000000 ${filesize}");
+
 	/* Boot uImage in external SDRAM */
 	/* Rootfs is a squashfs image in memory mapped QSPI */
 	/* => run s_boot */
