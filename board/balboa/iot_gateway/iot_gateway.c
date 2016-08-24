@@ -321,14 +321,20 @@ int board_early_init_f(void)
 
 int board_late_init(void)
 {
+	printf( "\n\n");
+	printf( "\t------------------------\n");
+	printf( "\tBalboa IoT gateway board\n");
+	printf( "\t------------------------\n");
+	printf( "\n\n");
 	printf(	"\t\t      SPI Flash Memory Map\n"
 		"\t\t------------------------------------\n"
 		"\t\t         Start      Size     SPI\n");
-	printf(	"\t\tu-boot:  0x%08X 0x%06X 0\n", 0,CONFIG_ENV_OFFSET);
-	printf(	"\t\t   env:  0x%08X 0x%06X 0\n", CONFIG_ENV_OFFSET, CONFIG_ENV_SIZE);
-	printf(	"\t\t    DT:  0x%08X 0x%06X 0\n", CONFIG_ENV_OFFSET+CONFIG_ENV_SIZE,CONFIG_ENV_SECT_SIZE);
-	printf(	"\t\tKernel:  0x%08X 0x%06X 0+1 (size*=2)\n",0x100000, 0x280000);
-	printf(	"\t\trootfs:  0x%08X 0x%06X 0+1 (size*=2)\n",0x400000, 0x2000000-0x400000);
+	printf(	"\t\tu-boot:  0x%08X 0x%06X\n", 0,CONFIG_ENV_OFFSET);
+	printf(	"\t\t   env:  0x%08X 0x%06X\n", CONFIG_ENV_OFFSET, CONFIG_ENV_SIZE);
+	printf(	"\t\t    DT:  0x%08X 0x%06X\n", CONFIG_ENV_OFFSET+CONFIG_ENV_SIZE,CONFIG_ENV_SECT_SIZE);
+	printf(	"\t\tKernel:  0x%08X 0x%06X\n",0x200000, 0x600000);
+	printf(	"\t\trootfs:  0x%08X 0x%06X\n",0x800000, 0x2000000-0x800000);
+	printf( "\n\n");
 
 	/* Boot uImage in external SDRAM */
 	/* Rootfs is a squashfs image in memory mapped QSPI */
