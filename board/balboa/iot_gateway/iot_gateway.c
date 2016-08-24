@@ -621,7 +621,8 @@ int qspi_reset_device(struct spi_flash *sf)
 {
 	int ret = 0;
 
-	if( !strcmp(sf->name, "S25FL512S_256K") ) {
+	if(( !strcmp(sf->name, "S25FL512S_256K") ) ||
+	   ( !strcmp(sf->name, "S25FL256S_64K") )) {
 		/* Don't really need to do anything */
 	}
 	else {
@@ -716,7 +717,8 @@ int do_qspi(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 
 	/* For Quad Mode operation, extra setup is needed in the SPI
 	   Flash devices */
-	if( !strcmp(my_spi_flash->name, "S25FL512S_256K") )
+	if(( !strcmp(my_spi_flash->name, "S25FL512S_256K") ) ||
+	   ( !strcmp(my_spi_flash->name, "S25FL256S_64K") ))
 		ret = enable_quad_spansion(my_spi_flash, quad_addr, quad_data);
 	else
 	{
