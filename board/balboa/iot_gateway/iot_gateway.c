@@ -344,7 +344,7 @@ int board_late_init(void)
 	setenv("s3", "bootm start 0x0B000000 - 0x0B800000 ; bootm loados ;"\
 			"fdt memory 0x0A000000 0x04000000"); // Change memory address in DTB
 	setenv("s4", "qspi single"); // Change XIP interface to single QSPI
-	setenv("sargs", "console=ttySC2,115200 console=tty0 ignore_loglevel root=/dev/mtdblock0"); // bootargs
+	setenv("sargs", "console=ttySC2,115200 ignore_loglevel root=/dev/mtdblock0"); // bootargs
 	setenv("s_boot", "run s1 s2 s3 s4; set bootargs ${sargs}; fdt chosen; bootm go"); // run the commands
 
 	/* Boot XIP using external SDRAM RAM */
@@ -356,8 +356,8 @@ int board_late_init(void)
 	setenv("xsa2", "fdt addr 0B800000 ; fdt memory 0x0A000000 0x04000000"); /* 128MB SDRAM RAM */
 	/* Change XIP interface to dual QSPI */
 	setenv("xsa3", "qspi single");
-	setenv("xsaargs", "console=ttySC2,115200 console=tty0 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
-	setenv("xsa_boot", "run xsa1 xsa2 xsa3; set bootargs ${xsaargs}; fdt chosen; bootx 18200000 09800000"); // run the commands
+	setenv("xsaargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
+	setenv("xsa_boot", "run xsa1 xsa2 xsa3; set bootargs ${xsaargs}; fdt chosen; bootx 18200000 0B800000"); // run the commands
 
 	return 0;
 }
