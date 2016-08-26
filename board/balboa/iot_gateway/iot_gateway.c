@@ -365,6 +365,19 @@ int board_late_init(void)
 	setenv("xsaargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
 	setenv("xsa_boot", "run xsa1 xsa2 xsa3; set bootargs ${xsaargs}; fdt chosen; bootx 18200000 0B800000"); // run the commands
 
+	/* Boot XIP using internal 3MB SRAM */
+	/* Rootfs is a AXFS image in memory mapped QSPI */
+	/* => run xsr_boot */
+	/* Read out DT blob */
+	setenv("xsr1", "sf probe 0; sf read 20100000 C0000 8000");
+	/* Change memory address in DTB */
+	setenv("xsr2", "fdt addr 20100000 ; fdt memory 0x20000000 0x00300000"); /* 3MB internal SRAM */
+	/* Change XIP interface to dual QSPI */
+	setenv("xsr3", "qspi single");
+	setenv("xsrargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
+	setenv("xsr_boot", "run xsr1 xsr2 xsr3; set bootargs ${xsrargs}; fdt chosen; bootx 18200000 20100000"); // run the commands
+
+
 	return 0;
 }
 
