@@ -288,10 +288,10 @@ int board_early_init_f(void)
 	#define CS2BCR_D	0x00004C00
 	#define CS2WCR_D	0x00000480 /* CAS Latency = 2 */
 	#define CS3BCR_D	0x00004C00
-	#define CS3WCR_D	0x00002492
-	#define SDCR_D		0x00120812
-	#define RTCOR_D		0xA55A0020
-	#define RTCSR_D		0xA55A0010
+	#define CS3WCR_D	0x00004492
+	#define SDCR_D		0x00110811
+	#define RTCOR_D		0xA55A0080
+	#define RTCSR_D		0xA55A0008
 	*(u32 *)CS2BCR = CS2BCR_D;
 	*(u32 *)CS2WCR = CS2WCR_D;
 	*(u32 *)CS3BCR = CS3BCR_D;
@@ -311,7 +311,7 @@ int board_early_init_f(void)
 	/* Check the hardware manual if your settings differ */
 	/* See p.238/2493 of r01uh0437ej0200_rz_a1l.pdf, table
 	   "Access Address in SDRAM Mode Register Write" */
-	#define SDRAM_MODE_CS2 0x3FFFD040
+	#define SDRAM_MODE_CS2 0x3FFFD040 /* 16 bit, CAS latency = 2, burst */
 	#define SDRAM_MODE_CS3 0x3FFFE040
 	*(u32 *)SDRAM_MODE_CS2 = 0;
 	*(u32 *)SDRAM_MODE_CS3 = 0;
