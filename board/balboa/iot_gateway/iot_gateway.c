@@ -374,7 +374,7 @@ int board_late_init(void)
 	setenv("xsr2", "fdt addr 20100000 ; fdt memory 0x20000000 0x00300000"); /* 3MB internal SRAM */
 	/* Change XIP interface to dual QSPI */
 	setenv("xsr3", "qspi single");
-	setenv("xsrargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
+	setenv("xsrargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000 rz_irq_trim"); // bootargs
 	setenv("xsr_boot", "run xsr1 xsr2 xsr3; set bootargs ${xsrargs}; fdt chosen; bootx 18200000 20100000"); // run the commands
 
 
