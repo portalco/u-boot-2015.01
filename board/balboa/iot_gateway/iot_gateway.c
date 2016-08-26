@@ -329,11 +329,11 @@ int board_late_init(void)
 	printf(	"\t      SPI Flash Memory Map\n"
 		"\t------------------------------------\n"
 		"\t         Start      Size\n");
-	printf(	"\tu-boot:  0x%08X 0x%06X\n", 0,CONFIG_ENV_OFFSET);
-	printf(	"\t   env:  0x%08X 0x%06X\n", CONFIG_ENV_OFFSET, CONFIG_ENV_SIZE);
-	printf(	"\t    DT:  0x%08X 0x%06X\n", CONFIG_ENV_OFFSET+CONFIG_ENV_SIZE,CONFIG_ENV_SECT_SIZE);
-	printf(	"\tKernel:  0x%08X 0x%06X\n",0x200000, 0x600000);
-	printf(	"\trootfs:  0x%08X 0x%06X\n",0x800000, 0x2000000-0x800000);
+	printf(	"\tu-boot:  0x%08X 0x%08X\n", 0,CONFIG_ENV_OFFSET);
+	printf(	"\t   env:  0x%08X 0x%08X\n", CONFIG_ENV_OFFSET, CONFIG_ENV_SIZE);
+	printf(	"\t    DT:  0x%08X 0x%08X\n", CONFIG_ENV_OFFSET+CONFIG_ENV_SIZE,CONFIG_ENV_SECT_SIZE);
+	printf(	"\tKernel:  0x%08X 0x%08X\n",0x200000, 0x600000);
+	printf(	"\trootfs:  0x%08X 0x%08X\n",0x800000, 0x2000000-0x800000);
 	printf( "\n\n");
 
 	/* Update commands */
