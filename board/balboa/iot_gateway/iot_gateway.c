@@ -227,13 +227,10 @@ int board_early_init_f(void)
 	pfc_set_pin_function(8, 10, ALT2, 0, 0);	/* P8_10 = ET_RXD3 */
 
 	/* SDRAM */
-	pfc_set_pin_function(7, 8, ALT1, 0, 0);	/* P7_8 = CS2 */
-	pfc_set_pin_function(2, 0, ALT1, 0, 0);	/* P2_0 = CS3 */	
 	for(i=0;i<=15;i++)
 		pfc_set_pin_function(5, i, ALT1, 0, 1);	/* P5_0~15 = D0-D15 (bi dir) */
 	pfc_set_pin_function(2, 1, ALT1, 0, 0);	/* P2_1 = RAS */
 	pfc_set_pin_function(2, 2, ALT1, 0, 0);	/* P2_2 = CAS */
-	pfc_set_pin_function(2, 3, ALT1, 0, 0);	/* P2_3 = CKE */
 	pfc_set_pin_function(2, 6, ALT1, 0, 0);	/* P2_6 = WE */
 	pfc_set_pin_function(2, 4, ALT1, 0, 0);	/* P2_4 = DQMLL */
 	pfc_set_pin_function(2, 5, ALT1, 0, 0);	/* P2_5 = DQMLU */
@@ -241,6 +238,9 @@ int board_early_init_f(void)
 		pfc_set_pin_function(3, i, ALT1, 0, 0);	/* P3_0~12: SDRAM_A0-A12 */
 	pfc_set_pin_function(3, 13, ALT1, 0, 0);	/* P3_13 = SDRAM_BA0 */
 	pfc_set_pin_function(3, 14, ALT1, 0, 0);	/* P3_14 = SDRAM_BA1 */
+	pfc_set_pin_function(7, 8, ALT1, 0, 0);	/* P7_8 = CS2 */
+	pfc_set_pin_function(2, 0, ALT1, 0, 0);	/* P2_0 = CS3 */	
+	pfc_set_pin_function(2, 3, ALT1, 0, 0);	/* P2_3 = CKE */
 
 	/* LEDs */
 	pfc_set_gpio(6, 0, GPIO_OUT); /* P6_0 = LED2 */
