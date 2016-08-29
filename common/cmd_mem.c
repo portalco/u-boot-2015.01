@@ -705,6 +705,110 @@ static int do_mem_loopw(cmd_tbl_t *cmdtp, int flag, int argc,
 }
 #endif /* CONFIG_LOOPW */
 
+#ifdef CONFIG_LOOPRW
+static int do_mem_looprw(cmd_tbl_t *cmdtp, int flag, int argc,
+			 char * const argv[])
+{
+	ulong	addr1, addr2;
+	int	size;
+
+	if (argc < 2)
+		return CMD_RET_USAGE;
+
+	/*
+	 * Check for a size specification.
+	 * Defaults to long if no or incorrect specification.
+	 */
+	if ((size = cmd_get_data_size(argv[0], 4)) < 0)
+		return 1;
+
+	/* Address is always specified.
+	*/
+	addr1 = simple_strtoul(argv[1], NULL, 16);
+
+	addr2 = addr1 + size;
+
+	(void)map_sysmem(addr1, 2*size);
+
+
+#ifdef CONFIG_SYS_SUPPORT_64BIT_DATA
+	if (size == 8) {
+		volatile u64 *llp1;
+		volatile u64 *llp2;
+		u64 lld1 = 0x5555555555555555ULL;
+		u64 lld2 = 0xAAAAAAAAAAAAAAAAULL;
+		llp1 = (u64 *)addr1;
+		llp2 = (u64 *)addr2;
+		for (;;) {
+			volatile int delaycnt;
+			for (delaycnt=0; delaycnt < 100; delaycnt++) {}
+
+			*llp1 = lld1;
+			*llp2 = lld2;
+			(void)*llp1;
+			(void)*llp2;
+		}
+	}
+#endif
+	if (size == 4) {
+		volatile u32 *lp1;
+		volatile u32 *lp2;
+		u32 ld1 = 0x55555555UL;
+		u32 ld2 = 0xAAAAAAAAUL;
+		lp1 = (u32 *)addr1;
+		lp2 = (u32 *)addr2;
+		for (;;) {
+			volatile int delaycnt;
+			for (delaycnt=0; delaycnt < 100; delaycnt++) {}
+
+			*lp1 = ld1;
+			*lp2 = ld2;
+			(void)*lp1;
+			(void)*lp2;
+		}
+	}
+
+	if (size == 2) {
+		volatile u16 *p1;
+		volatile u16 *p2;
+		u16 d1 = 0x5555;
+		u16 d2 = 0xAAAA;
+		p1 = (u16 *)addr1;
+		p2 = (u16 *)addr2;
+		for (;;) {
+			volatile int delaycnt;
+			for (delaycnt=0; delaycnt < 100; delaycnt++) {}
+
+			*p1 = d1;
+			*p2 = d2;
+			(void)*p1;
+			(void)*p2;
+		}
+	}
+
+	if (size == 1) {
+		volatile u8 *p1;
+		volatile u8 *p2;
+		u16 d1 = 0x55;
+		u16 d2 = 0xAA;
+		p1 = (u8 *)addr1;
+		p2 = (u8 *)addr2;
+		for (;;) {
+			volatile int delaycnt;
+			for (delaycnt=0; delaycnt < 100; delaycnt++) {}
+
+			*p1 = d1;
+			*p2 = d2;
+			(void)*p1;
+			(void)*p2;
+		}
+	}
+
+	/* Never getting here */
+	return 0;
+}
+#endif /* CONFIG_LOOPRW */
+
 #ifdef CONFIG_CMD_MEMTEST
 static ulong mem_test_alt(vu_long *buf, ulong start_addr, ulong end_addr,
 			  vu_long *dummy)
@@ -1362,6 +1466,18 @@ U_BOOT_CMD(
 #endif
 );
 #endif /* CONFIG_LOOPW */
+
+#ifdef CONFIG_LOOPRW
+U_BOOT_CMD(
+	looprw,	2,	1,	do_mem_looprw,
+	"infinite read/write loop on a two adjacent addresses",
+#ifdef CONFIG_SYS_SUPPORT_64BIT_DATA
+	"[.b, .w, .l, .q] address"
+#else
+	"[.b, .w, .l] address"
+#endif
+);
+#endif /* CONFIG_LOOPRW */
 
 #ifdef CONFIG_CMD_MEMTEST
 U_BOOT_CMD(
