@@ -94,7 +94,7 @@
  #define CONFIG_SYS_SDRAM_SIZE		(3 * 1024 * 1024)
  #define CONFIG_SYS_INIT_SP_ADDR         (CONFIG_SYS_SDRAM_BASE + CONFIG_SYS_SDRAM_SIZE - 1*1024*1024)
 #else
- #define CONFIG_SYS_SDRAM_BASE		0x0A000000
+ #define CONFIG_SYS_SDRAM_BASE		0x0C000000
  #define CONFIG_SYS_SDRAM_SIZE		(64 * 1024 * 1024)
  /* NOTE: The pin setup and SDRAM configuration is done in C,
           so an initial stack has to be set up first, meaning you
@@ -109,7 +109,7 @@
 #define CONFIG_LOOPW
 #define CONFIG_LOOPRW
 #define CONFIG_SYS_ALT_MEMTEST
-#define CONFIG_SYS_MEMTEST_START	0x0A000000
+#define CONFIG_SYS_MEMTEST_START	0x0C000000
 #define CONFIG_SYS_MEMTEST_END		(CONFIG_SYS_MEMTEST_START + 0x4000000)
 
 #define CONFIG_SYS_MALLOC_LEN		(512 * 1024)
