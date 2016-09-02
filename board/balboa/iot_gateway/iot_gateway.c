@@ -293,7 +293,7 @@ int board_early_init_f(void)
 	#define CS2WCR_D	0x00000480 /* CAS Latency = 2 */
 	#define CS3BCR_D	0x00004C00
 	#define CS3WCR_D	0x00004492
-	#define SDCR_D		0x00110811
+	#define SDCR_D		0x00120812
 	#define RTCOR_D		0xA55A0080
 	#define RTCSR_D		0xA55A0008
 	*(u32 *)CS2BCR = CS2BCR_D;
