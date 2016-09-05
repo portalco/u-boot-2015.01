@@ -265,6 +265,7 @@ int board_early_init_f(void)
 
 	/* USB control pins */
 	pfc_set_gpio(1, 9, GPIO_OUT); /* P1_9 = USB_DEVICE_LS_ON */
+//	pfc_set_gpio(6, 10, GPIO_OUT); /* P6_10 = USB_DEVICE_LS_ON */
 	pfc_gpio_set(1, 9, 1); /* LS Off */
 	pfc_set_gpio(1, 10, GPIO_OUT); /* P1_10 = USB_DEVICE_FS_ON */
 	pfc_gpio_set(1, 10, 1); /* FS Off */
