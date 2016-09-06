@@ -350,9 +350,9 @@ int board_late_init(void)
 	/* Boot uImage in external SDRAM */
 	/* Rootfs is a squashfs image in memory mapped QSPI */
 	/* => run s_boot */
-	setenv("s1", "sf probe 0; sf read 0D800000 C0000 8000"); // Read out DT blob
-	setenv("s2", "sf read 0D000000 100000 500000"); //Copy Kernel to SDRAM
-	setenv("s3", "bootm start 0x0D000000 - 0x0D800000 ; bootm loados ;"\
+	setenv("s1", "sf probe 0; sf read 0F800000 C0000 8000"); // Read out DT blob
+	setenv("s2", "sf read 0F000000 200000 600000"); //Copy Kernel to SDRAM
+	setenv("s3", "bootm start 0x0F000000 - 0x0F800000 ; bootm loados ;"\
 			"fdt memory 0x0C000000 0x04000000"); // Change memory address in DTB
 	setenv("s4", "qspi single"); // Change XIP interface to single QSPI
 	setenv("sargs", "console=ttySC2,115200 ignore_loglevel root=/dev/mtdblock0"); // bootargs
@@ -362,9 +362,9 @@ int board_late_init(void)
 	/* Rootfs is a AXFS image in memory mapped QSPI */
 	/* => run xsa_boot */
 	/* Read out DT blob */
-	setenv("xsa1", "sf probe 0; sf read 0D800000 C0000 8000");
+	setenv("xsa1", "sf probe 0; sf read 0F800000 C0000 8000");
 	/* Change memory address in DTB */
-	setenv("xsa2", "fdt addr 0D800000 ; fdt memory 0x0C000000 0x04000000"); /* 64MB SDRAM RAM */
+	setenv("xsa2", "fdt addr 0F800000 ; fdt memory 0x0C000000 0x04000000"); /* 64MB SDRAM RAM */
 	/* Change XIP interface to dual QSPI */
 	setenv("xsa3", "qspi single");
 	setenv("xsaargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
