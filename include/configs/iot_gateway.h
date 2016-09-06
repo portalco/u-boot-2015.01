@@ -56,6 +56,8 @@
 #define CONFIG_BOOTDELAY	3
 #define CONFIG_SYS_BAUDRATE_TABLE	{ CONFIG_BAUDRATE }
 
+#define CONFIG_BOOTCOMMAND "run xar_boot"
+
 #define CONFIG_SYS_LONGHELP		/* undef to save memory	*/
 #define CONFIG_SYS_PROMPT	"=> "	/* Monitor Command Prompt */
 #define CONFIG_SYS_CBSIZE	256	/* Boot Argument Buffer Size */
