@@ -327,12 +327,12 @@ int board_early_init_f(void)
 int board_late_init(void)
 {
 	printf( "\n\n");
-	printf( "\t------------------------\n");
-	printf( "\tBalboa IoT gateway board\n");
-	printf( "\t------------------------\n");
+	printf( "\t   ------------------------\n");
+	printf( "\t   Balboa IoT gateway board\n");
+	printf( "\t   ------------------------\n");
 	printf( "\n\n");
 	printf(	"\t      SPI Flash Memory Map\n"
-		"\t------------------------------------\n"
+		"\t------------------------------\n"
 		"\t         Start      Size\n");
 	printf(	"\tu-boot:  0x%08X 0x%08X\n", 0,CONFIG_ENV_OFFSET);
 	printf(	"\t   env:  0x%08X 0x%08X\n", CONFIG_ENV_OFFSET, CONFIG_ENV_SIZE);
