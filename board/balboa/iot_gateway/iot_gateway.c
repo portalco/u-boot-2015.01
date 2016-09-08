@@ -271,8 +271,8 @@ int board_early_init_f(void)
 	pfc_gpio_set(1, 10, 1); /* FS Off */
 	pfc_set_gpio(1, 11, GPIO_OUT); /* P1_11 = ~USB_HOST_ON */
 	pfc_set_gpio(1, 12, GPIO_OUT); /* P1_12 = USB_HOST_ON */
-	pfc_gpio_set(1, 11, 1); /* Host Off */
-	pfc_gpio_set(1, 12, 0); /* Host Off */
+	pfc_gpio_set(1, 11, 0); /* Host On */
+	pfc_gpio_set(1, 12, 1); /* Host On */
 
 
 	/**********************************************/
