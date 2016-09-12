@@ -252,14 +252,10 @@ int board_early_init_f(void)
 	/* RS485 */
 	pfc_set_pin_function(7, 5, ALT7, 0, 0);	/* P7_5 = RS485_RX */
 	pfc_set_pin_function(7, 6, ALT7, 0, 0);	/* P7_6 = RS485_TX */
-	//pfc_set_pin_function(7, 7, ALT7, 0, 0);	/* P7_7 = RS485_RTS */
-	pfc_set_gpio(7, 7, GPIO_OUT); /* P7_7 = RS485_RTS */
-	pfc_gpio_set(7, 7, 0); /* RS485_RTS: Receiving */
 
 	/* For the new board revision (RS485 moved from SCI1 to SCIF1): */
 	//pfc_set_pin_function(1, 9, ALT3, 0, 0);	/* P1_9 = RS485_RX */
 	//pfc_set_pin_function(3, 15, ALT5, 0, 0);	/* P3_15 = RS485_TX */
-	//pfc_set_pin_function(4, 1, ALT5, 0, 0);	/* P4_1 = RS485_RTS */
 
 	/* BTWIFI control pins */
 	pfc_set_gpio(7, 3, GPIO_OUT); /* P7_3 = BTWIFI_RSTN */
