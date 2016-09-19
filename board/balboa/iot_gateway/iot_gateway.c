@@ -254,8 +254,8 @@ int board_early_init_f(void)
 	pfc_set_pin_function(7, 6, ALT7, 0, 0);	/* P7_6 = RS485_TX */
 
 	/* For the new board revision (RS485 moved from SCI1 to SCIF1): */
-	//pfc_set_pin_function(1, 9, ALT3, 0, 0);	/* P1_9 = RS485_RX */
-	//pfc_set_pin_function(3, 15, ALT5, 0, 0);	/* P3_15 = RS485_TX */
+	pfc_set_pin_function(1, 9, ALT3, 0, 0);	/* P1_9 = RS485_RX */
+	pfc_set_pin_function(3, 15, ALT5, 0, 0);	/* P3_15 = RS485_TX */
 
 	/* BTWIFI control pins */
 	pfc_set_gpio(7, 3, GPIO_OUT); /* P7_3 = BTWIFI_RSTN */
@@ -263,7 +263,7 @@ int board_early_init_f(void)
 	pfc_set_gpio(7, 2, GPIO_IN); /* P7_2 = BTWIFI_HOST_WAKEUP */
 
 	/* USB control pins */
-	pfc_set_gpio(1, 9, GPIO_OUT); /* P1_9 = USB_DEVICE_LS_ON */
+//	pfc_set_gpio(1, 9, GPIO_OUT); /* P1_9 = USB_DEVICE_LS_ON */
 //	pfc_set_gpio(6, 10, GPIO_OUT); /* P6_10 = USB_DEVICE_LS_ON */
 	pfc_gpio_set(1, 9, 1); /* LS Off */
 	pfc_set_gpio(1, 10, GPIO_OUT); /* P1_10 = USB_DEVICE_FS_ON */
