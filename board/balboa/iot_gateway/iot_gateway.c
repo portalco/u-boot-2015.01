@@ -365,7 +365,7 @@ int board_late_init(void)
 	/* Change memory address in DTB */
 	setenv("xsa2", "fdt addr 0F800000 ; fdt memory 0x0C000000 0x04000000"); /* 64MB SDRAM RAM */
 	/* Change XIP interface to single QSPI */
-	setenv("xsa3", "qspi single");
+	setenv("xsa3", "qspi single ; date 010100012016");
 	setenv("xsaargs", "console=ttySC2,115200 ignore_loglevel root=/dev/null rootflags=physaddr=0x18800000"); // bootargs
 	setenv("xsa_boot", "run xsa1 xsa2 xsa3; set bootargs ${xsaargs}; fdt chosen; bootx 18200000 0F800000"); // run the commands
 
