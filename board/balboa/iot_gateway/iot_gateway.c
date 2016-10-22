@@ -273,6 +273,10 @@ int board_early_init_f(void)
 	pfc_gpio_set(1, 11, 0); /* Host On */
 	pfc_gpio_set(1, 12, 1); /* Host On */
 
+	/* RIIC Ch 1 */
+	pfc_set_pin_function(1, 2, ALT1, 0, 1); /* P1_2 = RIIC1SCL (bi dir) */
+	pfc_set_pin_function(1, 3, ALT1, 0, 1); /* P1_3 = RIIC1SDA (bi dir) */
+
 
 	/**********************************************/
 	/* Configure NOR Flash Chip Select (CS0, CS1) */
@@ -325,6 +329,21 @@ int board_early_init_f(void)
 
 int board_late_init(void)
 {
+	u8 mac[6];
+
+	/* Read Mac Address and set*/
+	i2c_init(CONFIG_SYS_I2C_SPEED, 0);
+	i2c_set_bus_num(CONFIG_SYS_I2C_MODULE);
+
+	/* Read MAC address */
+	i2c_read(CONFIG_SYS_I2C_EEPROM_ADDR,
+	         CONFIG_SH_ETHER_EEPROM_ADDR,
+	         CONFIG_SYS_I2C_EEPROM_ADDR_LEN,
+	         mac, 6);
+
+	if (is_valid_ether_addr(mac))
+		eth_setenv_enetaddr("ethaddr", mac);
+
 	printf( "\n\n");
 	printf( "\t   ------------------------\n");
 	printf( "\t   Balboa IoT gateway board\n");
